@@ -58,9 +58,4 @@ print(f"Unique commodity groups  : {products['commodity_desc'].nunique()}")
 
 
 # SALES VALUE DISTRIBUTION
-# ─────────────────────────────────────────
-
-print("\n" + "=" * 50)
-print("SALES VALUE DISTRIBUTION")
-print("=" * 50)
 print(transactions['sales_value'].describe().round(2).to_string())
