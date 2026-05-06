@@ -1,0 +1,66 @@
+# LOAD & EXPLORE DATA
+
+import pandas as pd
+import warnings
+warnings.filterwarnings('ignore')
+
+transactions = pd.read_csv('transaction_data.csv')
+products     = pd.read_csv('product.csv')
+demographics = pd.read_csv('hh_demographic.csv')
+causal       = pd.read_csv('causal_data.csv')
+campaigns    = pd.read_csv('campaign_table.csv')
+
+# STANDARDISE COLUMN NAMES
+
+transactions.columns = transactions.columns.str.lower().str.strip()
+products.columns     = products.columns.str.lower().str.strip()
+demographics.columns = demographics.columns.str.lower().str.strip()
+causal.columns       = causal.columns.str.lower().str.strip()
+campaigns.columns    = campaigns.columns.str.lower().str.strip()
+
+# BASIC SHAPE AND SIZE
+print(f"Transactions : {transactions.shape[0]:,} rows  x {transactions.shape[1]} columns")
+print(f"Products     : {products.shape[0]:,} rows  x {products.shape[1]} columns")
+print(f"Demographics : {demographics.shape[0]:,} rows  x {demographics.shape[1]} columns")
+print(f"Causal       : {causal.shape[0]:,} rows  x {causal.shape[1]} columns")
+print(f"Campaigns    : {campaigns.shape[0]:,} rows  x {campaigns.shape[1]} columns")
+
+# COLUMN NAMES
+print(f"\nTransactions : {list(transactions.columns)}")
+print(f"Products     : {list(products.columns)}")
+print(f"Demographics : {list(demographics.columns)}")
+print(f"Causal       : {list(causal.columns)}")
+print(f"Campaigns    : {list(campaigns.columns)}")
+
+# FIRST 5 ROWS OF EACH FILE
+print(transactions.head().to_string())
+print(products.head().to_string())
+print(demographics.head().to_string())
+
+# NULL VALUE CHECK
+print("NULL VALUE CHECK")
+print("\nTransactions nulls:")
+print(transactions.isnull().sum().to_string())
+print("\nProducts nulls:")
+print(products.isnull().sum().to_string())
+print("\nDemographics nulls:")
+print(demographics.isnull().sum().to_string())
+
+# KEY METRICS OVERVIEW
+print("KEY METRICS OVERVIEW")
+print(f"Total sales value        : ${transactions['sales_value'].sum():,.2f}")
+print(f"Unique households        : {transactions['household_key'].nunique():,}")
+print(f"Unique products          : {transactions['product_id'].nunique():,}")
+print(f"Unique baskets/trips     : {transactions['basket_id'].nunique():,}")
+print(f"Week range               : Week {transactions['week_no'].min()} to Week {transactions['week_no'].max()}")
+print(f"Unique departments       : {products['department'].nunique()}")
+print(f"Unique commodity groups  : {products['commodity_desc'].nunique()}")
+
+
+# SALES VALUE DISTRIBUTION
+# ─────────────────────────────────────────
+
+print("\n" + "=" * 50)
+print("SALES VALUE DISTRIBUTION")
+print("=" * 50)
+print(transactions['sales_value'].describe().round(2).to_string())
